@@ -20,4 +20,4 @@ Play "Reversi" with a simple, but reasonably strong AI
 
 ## Reference
 
-[オセロをビットボードで実装する](https://qiita.com/sensuikan1973/items/459b3e11d91f3cb37e43)
+- [オセロをビットボードで実装する](https://qiita.com/sensuikan1973/items/459b3e11d91f3cb37e43)
