@@ -2,9 +2,9 @@
 
 Play "Reversi" with a simple, but reasonably strong AI
 
-- Demo - [here: 🚧 WIP](#)
+<img align="right" src="https://user-images.githubusercontent.com/83964523/233155573-29ae0736-72dd-49bc-b14c-a406bd6b4bdb.png" width="35%" />
 
-<img align="right" src="" width="40%" />
+- Demo - [here: 🚧 WIP](#)
 
 ## Built with
 
