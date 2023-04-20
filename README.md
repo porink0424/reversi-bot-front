@@ -14,6 +14,19 @@ Play "Reversi" with a simple, but reasonably strong AI
 
 ## Getting Started
 
+```
+~
+❯ node -v
+v18.0.0
+
+~
+❯ yarn -v
+1.22.17
+
+~
+❯ yarn; yarn start
+```
+
 ## How It Works
 
 ## What We Left
