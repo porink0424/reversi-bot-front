@@ -1,8 +1,8 @@
+<img align="right" src="https://user-images.githubusercontent.com/83964523/233449005-5fb8e0bb-45fb-435f-886d-9e6dee3a85ac.png" width="45%" />
+
 # reversi-bot
 
 Play "Reversi" with a simple, but reasonably strong AI
-
-<img align="right" src="https://user-images.githubusercontent.com/83964523/233155573-29ae0736-72dd-49bc-b14c-a406bd6b4bdb.png" width="35%" />
 
 - Demo - [here: 🚧 WIP](#)
 
