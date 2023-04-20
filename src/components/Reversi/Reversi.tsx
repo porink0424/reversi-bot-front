@@ -2,17 +2,24 @@ import React from "react";
 import * as THREE from "three";
 import { createBoard } from "./Board";
 import { createDisc } from "./Disc";
-import { COLOR } from "./constants";
+import {
+  AMBIENT_LIGHT_INTENSITY,
+  CAMERA_LOOK_AT,
+  CAMERA_POSITION,
+  COLOR,
+  LIGHT_COLOR,
+  POINT_LIGHT_DISTANCE,
+  POINT_LIGHT_INTENSITY,
+  POINT_LIGHT_POSITION,
+} from "./constants";
 import { createBoardBase } from "./BoardBase";
 
 const setUpReversi = () => {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    100
-  );
+  const aspectRatio = window.innerWidth / window.innerHeight;
+  const camera = new THREE.PerspectiveCamera(80, aspectRatio, 0.1, 100);
+  camera.zoom = window.innerWidth / 1200;
+  camera.updateProjectionMatrix();
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
@@ -32,14 +39,23 @@ const setUpReversi = () => {
   scene.add(boardBase);
 
   // setup camera and lights
-  camera.position.z = 8;
-  camera.position.y = -6;
-  camera.position.x = 0;
-  camera.lookAt(scene.position);
-  const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-  pointLight.position.set(0, 0, 7);
+  camera.position.set(CAMERA_POSITION.x, CAMERA_POSITION.y, CAMERA_POSITION.z);
+  camera.lookAt(CAMERA_LOOK_AT.x, CAMERA_LOOK_AT.y, CAMERA_LOOK_AT.z);
+  const pointLight = new THREE.PointLight(
+    LIGHT_COLOR,
+    POINT_LIGHT_INTENSITY,
+    POINT_LIGHT_DISTANCE
+  );
+  pointLight.position.set(
+    POINT_LIGHT_POSITION.x,
+    POINT_LIGHT_POSITION.y,
+    POINT_LIGHT_POSITION.z
+  );
   scene.add(pointLight);
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  const ambientLight = new THREE.AmbientLight(
+    LIGHT_COLOR,
+    AMBIENT_LIGHT_INTENSITY
+  );
   scene.add(ambientLight);
 
   const animate = () => {

@@ -26,3 +26,27 @@ export const DISC_BLACK_COLOR = 0x000000;
 // z position in three.js
 export const TILE_Z = -0.1;
 export const BOARD_BASE_Z = -0.65;
+
+// camera in three.js
+export const CAMERA_POSITION = {
+  x: 0,
+  y: -6,
+  z: 8,
+};
+export const CAMERA_LOOK_AT = {
+  // decide so that the board is in the center of the screen
+  x: 0,
+  y: -1,
+  z: 0,
+};
+
+// light in three.js
+export const LIGHT_COLOR = 0xffffff;
+export const POINT_LIGHT_POSITION = {
+  x: 0,
+  y: 0,
+  z: 7,
+};
+export const POINT_LIGHT_INTENSITY = 1;
+export const POINT_LIGHT_DISTANCE = 100;
+export const AMBIENT_LIGHT_INTENSITY = 0.4;
