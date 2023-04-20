@@ -34,14 +34,10 @@ export const setUpReversi = () => {
   const discs: (THREE.Object3D<THREE.Event> | null)[][] = Array(LINE_COUNT)
     .fill(null)
     .map(() => Array(LINE_COUNT).fill(null));
-  discs[3][3] = createDisc([3, 3], COLOR.WHITE);
-  scene.add(discs[3][3]);
-  discs[4][4] = createDisc([4, 4], COLOR.WHITE);
-  scene.add(discs[4][4]);
-  discs[3][4] = createDisc([3, 4], COLOR.BLACK);
-  scene.add(discs[3][4]);
-  discs[4][3] = createDisc([4, 3], COLOR.BLACK);
-  scene.add(discs[4][3]);
+  scene.add(createDisc([3, 3], COLOR.WHITE, discs));
+  scene.add(createDisc([4, 4], COLOR.WHITE, discs));
+  scene.add(createDisc([3, 4], COLOR.BLACK, discs));
+  scene.add(createDisc([4, 3], COLOR.BLACK, discs));
 
   // board base
   const boardBase = createBoardBase();

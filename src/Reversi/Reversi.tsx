@@ -2,11 +2,12 @@ import React from "react";
 import { setUpReversi } from "./Setup";
 import * as THREE from "three";
 import { TILE_COLOR, TILE_SHINE_COLOR } from "./constants";
+import { deleteDisc } from "./Disc";
 
 /*
  * set up reversi UI
  */
-const { scene, camera, tiles } = setUpReversi();
+const { scene, camera, tiles, discs } = setUpReversi();
 
 /*
  * flags that control UI
@@ -50,6 +51,13 @@ document.addEventListener("mousemove", (event: MouseEvent) => {
     }
   }
 });
+
+/*
+ * for debug
+ */
+setTimeout(() => {
+  deleteDisc([3, 3], discs, scene);
+}, 1000);
 
 function Reversi() {
   return <div></div>;

@@ -12,7 +12,8 @@ import { reversiPositionToThreePosition } from "./utils";
 
 export const createDisc = (
   [x, y]: ReversiPosition,
-  color: Color = COLOR.BLACK
+  color: Color = COLOR.BLACK,
+  discs: (THREE.Object3D<THREE.Event> | null)[][]
 ) => {
   const whiteDiscGeometry = new THREE.CylinderGeometry(
     DISC_RADIUS,
@@ -47,7 +48,19 @@ export const createDisc = (
   const { x: threeX, y: threeY } = reversiPositionToThreePosition([x, y]);
   othelloDisc.position.set(threeX, threeY, 0);
 
+  discs[x][y] = othelloDisc;
   return othelloDisc;
+};
+
+export const deleteDisc = (
+  [x, y]: ReversiPosition,
+  discs: (THREE.Object3D<THREE.Event> | null)[][],
+  scene: THREE.Scene
+) => {
+  const disc = discs[x][y];
+  if (disc === null) throw new Error("disc is null");
+  scene.remove(disc);
+  discs[x][y] = null;
 };
 
 let nowReversedDiscs: {
