@@ -1,5 +1,5 @@
 import React from "react";
-import Reversi from "./components/Reversi/Reversi";
+import Reversi from "./Reversi/Reversi";
 
 function App() {
   return (

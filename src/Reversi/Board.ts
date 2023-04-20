@@ -41,14 +41,19 @@ const createSeparator = (
 
 export const createBoard = () => {
   const board = new THREE.Object3D();
+  const tiles = [];
 
   // Create tiles
   for (let x = 0; x < LINE_COUNT; x += 1) {
+    const tilesLine = [];
     for (let y = 0; y < LINE_COUNT; y += 1) {
       const { x: threeX, y: threeY } = reversiPositionToThreePosition([x, y]);
       const tile = createTile(threeX, threeY);
+      tile.name = `tile-${x}-${y}`;
+      tilesLine.push(tile);
       board.add(tile);
     }
+    tiles.push(tilesLine);
   }
 
   // Line between tiles
@@ -68,5 +73,5 @@ export const createBoard = () => {
     board.add(verticalSeparator);
   }
 
-  return board;
+  return { tiles, board };
 };

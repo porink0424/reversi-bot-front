@@ -1,71 +1,55 @@
 import React from "react";
+import { setUpReversi } from "./Setup";
 import * as THREE from "three";
-import { createBoard } from "./Board";
-import { createDisc } from "./Disc";
-import {
-  AMBIENT_LIGHT_INTENSITY,
-  CAMERA_LOOK_AT,
-  CAMERA_POSITION,
-  COLOR,
-  LIGHT_COLOR,
-  POINT_LIGHT_DISTANCE,
-  POINT_LIGHT_INTENSITY,
-  POINT_LIGHT_POSITION,
-} from "./constants";
-import { createBoardBase } from "./BoardBase";
+import { TILE_COLOR, TILE_SHINE_COLOR } from "./constants";
 
-const setUpReversi = () => {
-  const scene = new THREE.Scene();
-  const aspectRatio = window.innerWidth / window.innerHeight;
-  const camera = new THREE.PerspectiveCamera(80, aspectRatio, 0.1, 100);
-  camera.zoom = window.innerWidth / 1200;
-  camera.updateProjectionMatrix();
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+/*
+ * set up reversi UI
+ */
+const { scene, camera, tiles } = setUpReversi();
 
-  // board
-  const board = createBoard();
-  scene.add(board);
+/*
+ * flags that control UI
+ */
+let shineHoveredTile = true;
 
-  // disc
-  const disc1 = createDisc([3, 3], COLOR.BLACK);
-  const disc2 = createDisc([3, 4], COLOR.WHITE);
-  scene.add(disc1);
-  scene.add(disc2);
+/*
+ * make tiles shine when hovered
+ */
+let hoveredTile: THREE.Mesh<THREE.BoxGeometry, THREE.MeshPhongMaterial> | null =
+  null;
+document.addEventListener("mousemove", (event: MouseEvent) => {
+  if (shineHoveredTile) {
+    // get mouse position
+    const mouse = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    );
 
-  // board base
-  const boardBase = createBoardBase();
-  scene.add(boardBase);
+    // make raycaster
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse, camera);
 
-  // setup camera and lights
-  camera.position.set(CAMERA_POSITION.x, CAMERA_POSITION.y, CAMERA_POSITION.z);
-  camera.lookAt(CAMERA_LOOK_AT.x, CAMERA_LOOK_AT.y, CAMERA_LOOK_AT.z);
-  const pointLight = new THREE.PointLight(
-    LIGHT_COLOR,
-    POINT_LIGHT_INTENSITY,
-    POINT_LIGHT_DISTANCE
-  );
-  pointLight.position.set(
-    POINT_LIGHT_POSITION.x,
-    POINT_LIGHT_POSITION.y,
-    POINT_LIGHT_POSITION.z
-  );
-  scene.add(pointLight);
-  const ambientLight = new THREE.AmbientLight(
-    LIGHT_COLOR,
-    AMBIENT_LIGHT_INTENSITY
-  );
-  scene.add(ambientLight);
-
-  const animate = () => {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-  };
-  animate();
-};
-
-setUpReversi();
+    // get intersections and make hoveredTile shine
+    const intersects = raycaster.intersectObjects(scene.children);
+    const intersectedMeshName = intersects[0]?.object.name;
+    const resetTileColor = () => {
+      if (hoveredTile) {
+        hoveredTile.material.color = new THREE.Color(TILE_COLOR);
+      }
+    };
+    if (intersectedMeshName && intersectedMeshName.slice(0, 4) === "tile") {
+      resetTileColor();
+      const tileX = parseInt(intersectedMeshName[5]);
+      const tileY = parseInt(intersectedMeshName[7]);
+      hoveredTile = tiles[tileX][tileY];
+      hoveredTile.material.color = new THREE.Color(TILE_SHINE_COLOR);
+    } else {
+      resetTileColor();
+      hoveredTile = null;
+    }
+  }
+});
 
 function Reversi() {
   return <div></div>;
