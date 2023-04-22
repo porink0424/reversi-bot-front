@@ -57,7 +57,7 @@ document.addEventListener("mousemove", (event: MouseEvent) => {
  */
 setTimeout(() => {
   deleteDisc([3, 3], discs, scene);
-}, 5000);
+}, 1000);
 
 function Reversi() {
   return <div></div>;
