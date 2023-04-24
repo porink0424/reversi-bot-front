@@ -5,6 +5,19 @@ export const COLOR = {
   WHITE: "white",
 };
 
+// state
+export const GAME_STATE = {
+  START: "start",
+  CHOOSE_COLOR: "chooseColor",
+  CHECK: "check",
+  PASS_ANIMATION: "passAnimation",
+  WAIT_FOR_PLAYER: "waitForPlayer",
+  THINK: "think",
+  REVERSE_ANIMATION: "reverseAnimation",
+  SHOW_RESULT: "showResult",
+  CONTINUE: "continue",
+};
+
 // size in three.js
 export const CELL_SIZE = 1;
 export const BOARD_SIZE = CELL_SIZE * LINE_COUNT;
