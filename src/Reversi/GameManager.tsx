@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AnimationController } from "./AnimationController";
 import { GameState } from "./types";
 import { GAME_STATE } from "./constants";
+import StartModal from "./UI/StartModal";
 
 function GameManager({
   animationController,
@@ -9,6 +10,9 @@ function GameManager({
   animationController?: AnimationController;
 }) {
   const [gameState, setGameState] = useState<GameState>(GAME_STATE.START);
+  const [playerColor, setPlayerColor] = useState<"black" | "white" | null>(
+    null
+  );
 
   const previousGameState = useRef<GameState>(gameState);
   useEffect(() => {
@@ -23,7 +27,15 @@ function GameManager({
     }
   }, [gameState]);
 
-  return <div></div>;
+  return (
+    <div>
+      <StartModal
+        gameState={gameState}
+        setGameState={setGameState}
+        setPlayerColor={setPlayerColor}
+      />
+    </div>
+  );
 }
 
 export default GameManager;
