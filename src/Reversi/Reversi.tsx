@@ -1,65 +1,26 @@
-import React from "react";
-import { setUpReversi } from "./Setup";
-import * as THREE from "three";
-import { TILE_COLOR, TILE_SHINE_COLOR } from "./constants";
-import { deleteDisc } from "./Disc";
-
-/*
- * set up reversi UI
- */
-const { scene, camera, tiles, discs } = setUpReversi();
-
-/*
- * flags that control UI
- */
-let shineHoveredTile = true;
-
-/*
- * make tiles shine when hovered
- */
-let hoveredTile: THREE.Mesh<THREE.BoxGeometry, THREE.MeshPhongMaterial> | null =
-  null;
-document.addEventListener("mousemove", (event: MouseEvent) => {
-  if (shineHoveredTile) {
-    // get mouse position
-    const mouse = new THREE.Vector2(
-      (event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1
-    );
-
-    // make raycaster
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-
-    // get intersections and make hoveredTile shine
-    const intersects = raycaster.intersectObjects(scene.children);
-    const intersectedMeshName = intersects[0]?.object.name;
-    const resetTileColor = () => {
-      if (hoveredTile) {
-        hoveredTile.material.color = new THREE.Color(TILE_COLOR);
-      }
-    };
-    if (intersectedMeshName && intersectedMeshName.slice(0, 4) === "tile") {
-      resetTileColor();
-      const tileX = parseInt(intersectedMeshName[5]);
-      const tileY = parseInt(intersectedMeshName[7]);
-      hoveredTile = tiles[tileX][tileY];
-      hoveredTile.material.color = new THREE.Color(TILE_SHINE_COLOR);
-    } else {
-      resetTileColor();
-      hoveredTile = null;
-    }
-  }
-});
-
-/*
- * for debug
- */
-setTimeout(() => {
-  deleteDisc([3, 3], discs, scene);
-}, 1000);
+import React, { useEffect, useRef, useState } from "react";
+import { AnimationController } from "./AnimationController";
+import { GameManager } from "./GameManager";
 
 function Reversi() {
+  const [animationController, setAnimationController] = useState<
+    AnimationController | undefined
+  >(undefined);
+  const [gameManager, setGameManager] = useState<GameManager | undefined>(
+    undefined
+  );
+
+  const hasBooted = useRef(false);
+  useEffect(() => {
+    if (!hasBooted.current) {
+      hasBooted.current = true;
+      const newAnimationController = new AnimationController();
+      setAnimationController(newAnimationController);
+      const newGameManager = new GameManager(newAnimationController);
+      setGameManager(newGameManager);
+    }
+  }, []);
+
   return <div></div>;
 }
 

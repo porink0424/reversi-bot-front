@@ -34,3 +34,4 @@ v18.0.0
 ## Reference
 
 - [オセロをビットボードで実装する](https://qiita.com/sensuikan1973/items/459b3e11d91f3cb37e43)
+- https://hackmd.io/phvP1YtOTjqT7fvtFoUanA
