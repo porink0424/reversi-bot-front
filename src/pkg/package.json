@@ -1,0 +1,17 @@
+{
+  "name": "reversi-bot",
+  "collaborators": [
+    "Daichi Kato <daichi5967@docomo.ne.jp>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "reversi_bot_bg.wasm",
+    "reversi_bot.js",
+    "reversi_bot.d.ts"
+  ],
+  "module": "reversi_bot.js",
+  "types": "reversi_bot.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
