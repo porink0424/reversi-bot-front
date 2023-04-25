@@ -5,7 +5,7 @@ import {
   TILE_COLOR,
   TILE_SHINE_COLOR,
 } from "./constants";
-import { createDisc, reverseDisc } from "./Disc";
+import { createDisc, deleteDisc, reverseDisc } from "./Disc";
 import { COLOR } from "../pkg/reversi_bot";
 import { ReversiPosition } from "./types";
 
@@ -39,11 +39,21 @@ export class AnimationController {
             onEnd();
           }
         });
-      }, index * REVERSE_DUSC_DELAY_MS);
+      }, (index + 1) * REVERSE_DUSC_DELAY_MS);
+    });
+  };
+  public reverseDiscsWithoutAnimation = (places: ReversiPosition[]) => {
+    places.forEach(([x, y]) => {
+      const disc = this.discs[x][y];
+      if (disc === null) throw new Error("disc is null");
+      disc.rotation.x += Math.PI;
     });
   };
   public putDisc = (place: ReversiPosition, color: COLOR | null) => {
     this.scene.add(createDisc(place, color ?? COLOR.BLACK, this.discs));
+  };
+  public deleteDisc = (place: ReversiPosition) => {
+    deleteDisc(place, this.discs, this.scene);
   };
   public reset = () => {
     this.discs.forEach((row) => {

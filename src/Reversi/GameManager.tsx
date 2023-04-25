@@ -13,6 +13,7 @@ import init, {
 import { COLOR } from "../pkg/reversi_bot";
 import HeadMessageBox from "./UI/HeadMessageBox";
 import { bigIntToPlaces, countOnesInBigInt, placeToBigInt } from "./utils";
+import UndoButton from "./UI/UndoButton";
 
 function GameManager({
   animationController,
@@ -23,6 +24,13 @@ function GameManager({
   const [result, setResult] = useState<Result | null>(null);
   const [playerColor, setPlayerColor] = useState<COLOR | null>(COLOR.BLACK);
 
+  const boardHistory = useRef<
+    {
+      board: Board;
+      place: ReversiPosition;
+      reversedPlaces: ReversiPosition[];
+    }[]
+  >([]);
   const previousGameState = useRef<GameState | null>(null);
   const decidedPlace = useRef<ReversiPosition>(null!);
   const board = useRef<Board | null>(null);
@@ -107,6 +115,27 @@ function GameManager({
           });
           break;
         }
+        case GAME_STATE.UNDO: {
+          if (boardHistory.current.length >= 2) {
+            // Get back 2 steps since have to be in the previous WAIT_FOR_PLAYER state
+            // 1st
+            let prevBoard = boardHistory.current.pop()!;
+            animationController.current?.reverseDiscsWithoutAnimation(
+              prevBoard.reversedPlaces
+            );
+            animationController.current?.deleteDisc(prevBoard.place);
+            // 2nd
+            prevBoard = boardHistory.current.pop()!;
+            animationController.current?.reverseDiscsWithoutAnimation(
+              prevBoard.reversedPlaces
+            );
+            animationController.current?.deleteDisc(prevBoard.place);
+            board.current = prevBoard.board;
+          }
+
+          setGameState(GAME_STATE.WAIT_FOR_PLAYER);
+          break;
+        }
         case GAME_STATE.THINK: {
           if (!board.current) {
             throw new Error("board is not initialized");
@@ -138,6 +167,11 @@ function GameManager({
               setGameState(GAME_STATE.CHECK);
             }
           );
+          boardHistory.current.push({
+            board: board.current,
+            place: decidedPlace.current,
+            reversedPlaces: bigIntToPlaces(putResult.reversed_places),
+          });
           board.current = putResult.board;
 
           break;
@@ -162,6 +196,7 @@ function GameManager({
         result={result}
         playerColor={playerColor}
       />
+      <UndoButton gameState={gameState} setGameState={setGameState} />
     </div>
   );
 }

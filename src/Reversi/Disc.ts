@@ -14,7 +14,8 @@ import sound from "../sounds/put_stone.mp3";
 export const createDisc = (
   [x, y]: ReversiPosition,
   color: COLOR = COLOR.BLACK,
-  discs: (THREE.Object3D<THREE.Event> | null)[][]
+  discs: (THREE.Object3D<THREE.Event> | null)[][],
+  isSoundOn: boolean = true
 ) => {
   const whiteDiscGeometry = new THREE.CylinderGeometry(
     DISC_RADIUS,
@@ -49,6 +50,10 @@ export const createDisc = (
   const { x: threeX, y: threeY } = reversiPositionToThreePosition([x, y]);
   othelloDisc.position.set(threeX, threeY, 0);
 
+  if (isSoundOn) {
+    const audio = new Audio(sound);
+    audio.play();
+  }
   discs[x][y] = othelloDisc;
   return othelloDisc;
 };

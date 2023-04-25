@@ -20,10 +20,10 @@ export const setUpDiscs = (scene: THREE.Scene) => {
   const discs: (THREE.Object3D<THREE.Event> | null)[][] = Array(LINE_COUNT)
     .fill(null)
     .map(() => Array(LINE_COUNT).fill(null));
-  scene.add(createDisc([3, 3], COLOR.WHITE, discs));
-  scene.add(createDisc([4, 4], COLOR.WHITE, discs));
-  scene.add(createDisc([3, 4], COLOR.BLACK, discs));
-  scene.add(createDisc([4, 3], COLOR.BLACK, discs));
+  scene.add(createDisc([3, 3], COLOR.WHITE, discs, false));
+  scene.add(createDisc([4, 4], COLOR.WHITE, discs, false));
+  scene.add(createDisc([3, 4], COLOR.BLACK, discs, false));
+  scene.add(createDisc([4, 3], COLOR.BLACK, discs, false));
   return discs;
 };
 

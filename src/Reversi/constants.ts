@@ -9,6 +9,7 @@ export const GAME_STATE = {
   CHECK: "check",
   PASS: "pass",
   WAIT_FOR_PLAYER: "waitForPlayer",
+  UNDO: "undo",
   THINK: "think",
   REVERSE_ANIMATION: "reverseAnimation",
   SHOW_RESULT: "showResult",
