@@ -9,6 +9,16 @@ export const reversiPositionToThreePosition = (
   return { x, y };
 };
 
+export const countOnesInBigInt = (bigInt: bigint): number => {
+  let count = 0;
+  for (let i = 0; i < 64; i += 1) {
+    if (bigInt & (BigInt(0x8000000000000000) >> BigInt(i))) {
+      count += 1;
+    }
+  }
+  return count;
+};
+
 export const bigIntToPlaces = (bigInt: bigint): ReversiPosition[] => {
   const placesArray: ReversiPosition[] = [];
   for (let i = 0; i < 64; i += 1) {
