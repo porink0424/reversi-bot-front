@@ -1,7 +1,12 @@
 {
   "name": "reversi-bot",
+  "homepage": "https://porinky0424.github.io/reversi-bot-front/",
+  "author": {
+    "name": "porinky0424",
+    "email": "daichi5967@gmail.com"
+  },
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
