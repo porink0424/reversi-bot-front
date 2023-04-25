@@ -1,16 +1,13 @@
 // common
 export const LINE_COUNT = 8;
-export const COLOR = {
-  BLACK: "black",
-  WHITE: "white",
-};
 
 // state
 export const GAME_STATE = {
   START: "start",
   CHOOSE_COLOR: "chooseColor",
+  INITIALIZE_BOARD: "initializeBoard",
   CHECK: "check",
-  PASS_ANIMATION: "passAnimation",
+  PASS: "pass",
   WAIT_FOR_PLAYER: "waitForPlayer",
   THINK: "think",
   REVERSE_ANIMATION: "reverseAnimation",
@@ -69,3 +66,5 @@ export const AMBIENT_LIGHT_INTENSITY = 0.4;
 
 // animation
 export const REVERSE_DISC_MAX_FRAME_COUNT = 11;
+export const REVERSE_DUSC_DELAY_MS = 100;
+export const BOT_THINKING_DELAY_MS = 200;

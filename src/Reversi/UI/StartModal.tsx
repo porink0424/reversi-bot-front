@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Button, Modal, Stack, Typography } from "@mui/material";
 import { GameState } from "../types";
 import { GAME_STATE } from "../constants";
+import { COLOR } from "../../pkg/reversi_bot";
 
 function StartModal({
   gameState,
@@ -10,105 +11,109 @@ function StartModal({
 }: {
   gameState: GameState;
   setGameState: (gameState: GameState) => void;
-  setPlayerColor: (playerColor: "black" | "white" | null) => void;
+  setPlayerColor: (playerColor: COLOR | null) => void;
 }) {
-  return (
-    <Modal
-      open={
-        gameState === GAME_STATE.START || gameState === GAME_STATE.CHOOSE_COLOR
-      }
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "60%",
-          height: "400px",
-          backgroundColor: "#fff",
-          border: "2px solid #000",
-          borderRadius: "8px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
+  return useMemo(
+    () => (
+      <Modal
+        open={
+          gameState === GAME_STATE.START ||
+          gameState === GAME_STATE.CHOOSE_COLOR
+        }
       >
-        {gameState === GAME_STATE.START ? (
-          <>
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: "3rem",
-                marginBottom: "4rem",
-                fontWeight: "600",
-              }}
-            >
-              REVERSI-BOT
-            </Typography>
-            <Button
-              variant="contained"
-              onClick={() => setGameState(GAME_STATE.CHOOSE_COLOR)}
-              sx={{
-                width: "60%",
-                fontSize: "1rem",
-                display: "block",
-              }}
-            >
-              START
-            </Button>
-          </>
-        ) : (
-          <>
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: "3rem",
-                marginBottom: "4rem",
-                fontWeight: "600",
-              }}
-            >
-              YOUR COLOR ?
-            </Typography>
-            <Stack direction="row" spacing={6}>
-              <Button
-                variant="contained"
-                color="black"
-                onClick={() => {
-                  setPlayerColor("black");
-                  setGameState(GAME_STATE.CHECK);
-                }}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "40%",
+            height: "200px",
+            backgroundColor: "#fff",
+            border: "2px solid #000",
+            borderRadius: "8px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          {gameState === GAME_STATE.START ? (
+            <>
+              <Typography
+                variant="h1"
                 sx={{
-                  width: "150px",
-                  fontSize: "1rem",
-                  display: "block",
-                  color: "#fff",
+                  fontSize: "3rem",
+                  marginBottom: "2rem",
+                  fontWeight: "600",
                 }}
               >
-                BLACK
-              </Button>
+                REVERSI-BOT
+              </Typography>
               <Button
                 variant="contained"
-                color="white"
-                onClick={() => {
-                  setPlayerColor("white");
-                  setGameState(GAME_STATE.CHECK);
-                }}
+                onClick={() => setGameState(GAME_STATE.CHOOSE_COLOR)}
                 sx={{
-                  width: "150px",
+                  width: "60%",
                   fontSize: "1rem",
                   display: "block",
-                  color: "#000",
                 }}
               >
-                WHITE
+                START
               </Button>
-            </Stack>
-          </>
-        )}
-      </Box>
-    </Modal>
+            </>
+          ) : (
+            <>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: "2rem",
+                  marginBottom: "2rem",
+                  fontWeight: "600",
+                }}
+              >
+                YOUR COLOR?
+              </Typography>
+              <Stack direction="row" spacing={4}>
+                <Button
+                  variant="contained"
+                  color="black"
+                  onClick={() => {
+                    setPlayerColor(COLOR.BLACK);
+                    setGameState(GAME_STATE.INITIALIZE_BOARD);
+                  }}
+                  sx={{
+                    width: "8rem",
+                    fontSize: "1rem",
+                    display: "block",
+                    color: "#fff",
+                  }}
+                >
+                  BLACK
+                </Button>
+                <Button
+                  variant="contained"
+                  color="white"
+                  onClick={() => {
+                    setPlayerColor(COLOR.WHITE);
+                    setGameState(GAME_STATE.INITIALIZE_BOARD);
+                  }}
+                  sx={{
+                    width: "8rem",
+                    fontSize: "1rem",
+                    display: "block",
+                    color: "#000",
+                  }}
+                >
+                  WHITE
+                </Button>
+              </Stack>
+            </>
+          )}
+        </Box>
+      </Modal>
+    ),
+    [gameState, setGameState, setPlayerColor]
   );
 }
 

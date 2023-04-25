@@ -7,7 +7,6 @@ import {
   CAMERA_LOOK_AT,
   CAMERA_POSITION,
   CAMERA_ZOOM_FACTOR,
-  COLOR,
   LIGHT_COLOR,
   LINE_COUNT,
   POINT_LIGHT_DISTANCE,
@@ -15,6 +14,18 @@ import {
   POINT_LIGHT_POSITION,
 } from "./constants";
 import { createBoardBase } from "./BoardBase";
+import { COLOR } from "../pkg/reversi_bot";
+
+export const setUpDiscs = (scene: THREE.Scene) => {
+  const discs: (THREE.Object3D<THREE.Event> | null)[][] = Array(LINE_COUNT)
+    .fill(null)
+    .map(() => Array(LINE_COUNT).fill(null));
+  scene.add(createDisc([3, 3], COLOR.WHITE, discs));
+  scene.add(createDisc([4, 4], COLOR.WHITE, discs));
+  scene.add(createDisc([3, 4], COLOR.BLACK, discs));
+  scene.add(createDisc([4, 3], COLOR.BLACK, discs));
+  return discs;
+};
 
 export const setUpReversi = () => {
   const scene = new THREE.Scene();
@@ -31,13 +42,7 @@ export const setUpReversi = () => {
   scene.add(board);
 
   // initial disc
-  const discs: (THREE.Object3D<THREE.Event> | null)[][] = Array(LINE_COUNT)
-    .fill(null)
-    .map(() => Array(LINE_COUNT).fill(null));
-  scene.add(createDisc([3, 3], COLOR.WHITE, discs));
-  scene.add(createDisc([4, 4], COLOR.WHITE, discs));
-  scene.add(createDisc([3, 4], COLOR.BLACK, discs));
-  scene.add(createDisc([4, 3], COLOR.BLACK, discs));
+  const discs = setUpDiscs(scene);
 
   // board base
   const boardBase = createBoardBase();

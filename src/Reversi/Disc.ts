@@ -1,18 +1,19 @@
 import * as THREE from "three";
 import {
-  COLOR,
   DISC_BLACK_COLOR,
   DISC_RADIUS,
   DISC_THICKNESS,
   DISC_WHITE_COLOR,
   REVERSE_DISC_MAX_FRAME_COUNT,
 } from "./constants";
-import { Color, ReversiPosition } from "./types";
+import { ReversiPosition } from "./types";
 import { reversiPositionToThreePosition } from "./utils";
+import { COLOR } from "../pkg/reversi_bot";
+import sound from "../sounds/put_stone.mp3";
 
 export const createDisc = (
   [x, y]: ReversiPosition,
-  color: Color = COLOR.BLACK,
+  color: COLOR = COLOR.BLACK,
   discs: (THREE.Object3D<THREE.Event> | null)[][]
 ) => {
   const whiteDiscGeometry = new THREE.CylinderGeometry(
@@ -66,14 +67,16 @@ export const deleteDisc = (
 let nowReversedDiscs: {
   disc: THREE.Object3D<THREE.Event>;
   frame: number;
+  onEnd?: () => void;
 }[] = [];
 export const reverseDisc = (
   [x, y]: ReversiPosition,
-  discs: (THREE.Object3D<THREE.Event> | null)[][]
+  discs: (THREE.Object3D<THREE.Event> | null)[][],
+  onEnd?: () => void
 ) => {
   const disc = discs[x][y];
   if (disc === null) throw new Error("disc is null");
-  nowReversedDiscs.push({ disc, frame: 0 });
+  nowReversedDiscs.push({ disc, frame: 0, onEnd });
 };
 
 function reverseDiscAnimate() {
@@ -87,7 +90,10 @@ function reverseDiscAnimate() {
         : (0.1 * (REVERSE_DISC_MAX_FRAME_COUNT - disc.frame)) / 0.6);
     disc.frame += 1;
     if (disc.frame >= REVERSE_DISC_MAX_FRAME_COUNT) {
+      const audio = new Audio(sound);
+      audio.play();
       disc.disc.position.z = 0;
+      if (disc.onEnd) disc.onEnd();
       nowReversedDiscs = nowReversedDiscs.filter((d) => d !== disc);
     }
   });
