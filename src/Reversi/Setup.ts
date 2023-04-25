@@ -20,10 +20,10 @@ export const setUpDiscs = (scene: THREE.Scene) => {
   const discs: (THREE.Object3D<THREE.Event> | null)[][] = Array(LINE_COUNT)
     .fill(null)
     .map(() => Array(LINE_COUNT).fill(null));
-  scene.add(createDisc([3, 3], COLOR.WHITE, discs, false));
-  scene.add(createDisc([4, 4], COLOR.WHITE, discs, false));
-  scene.add(createDisc([3, 4], COLOR.BLACK, discs, false));
-  scene.add(createDisc([4, 3], COLOR.BLACK, discs, false));
+  scene.add(createDisc([3, 3], COLOR.WHITE, discs));
+  scene.add(createDisc([4, 4], COLOR.WHITE, discs));
+  scene.add(createDisc([3, 4], COLOR.BLACK, discs));
+  scene.add(createDisc([4, 3], COLOR.BLACK, discs));
   return discs;
 };
 
@@ -33,6 +33,31 @@ export const setUpReversi = () => {
   const camera = new THREE.PerspectiveCamera(CAMERA_FOV, aspectRatio, 0.1, 100);
   camera.zoom = window.innerWidth / CAMERA_ZOOM_FACTOR;
   camera.updateProjectionMatrix();
+  const listener = new THREE.AudioListener();
+  camera.add(listener);
+  const audioLoaders = Array(LINE_COUNT)
+    .fill(null)
+    .map(() =>
+      Array(LINE_COUNT)
+        .fill(null)
+        .map(() => new THREE.AudioLoader())
+    );
+  const putStoneSounds = Array(LINE_COUNT)
+    .fill(null)
+    .map(() =>
+      Array(LINE_COUNT)
+        .fill(null)
+        .map(() => new THREE.Audio(listener))
+    );
+  audioLoaders.forEach((row, rowIndex) => {
+    row.forEach((audioLoader, columnIndex) => {
+      audioLoader.load("sounds/put_stone.mp3", (buffer) => {
+        putStoneSounds[rowIndex][columnIndex].setBuffer(buffer);
+        putStoneSounds[rowIndex][columnIndex].setLoop(false);
+        putStoneSounds[rowIndex][columnIndex].setVolume(1);
+      });
+    });
+  });
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
@@ -74,5 +99,5 @@ export const setUpReversi = () => {
   };
   animate();
 
-  return { scene, camera, renderer, tiles, discs };
+  return { scene, camera, putStoneSounds, renderer, tiles, discs };
 };

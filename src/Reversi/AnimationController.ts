@@ -17,6 +17,7 @@ export class AnimationController {
   private legalPlaces: ReversiPosition[] = [];
   private onLegalPlaceClicked: ((x: number, y: number) => void) | null = null;
   private scene!: THREE.Scene;
+  private putStoneSounds!: THREE.Audio<GainNode>[][];
   private discs: (THREE.Object3D<THREE.Event> | null)[][] = [];
   public setShineHoveredTile = (shineHoveredTile: boolean) => {
     this.shineHoveredTile = shineHoveredTile;
@@ -31,10 +32,11 @@ export class AnimationController {
   };
   public reverseDiscs = (places: ReversiPosition[], onEnd: () => void) => {
     let animationEndCount = 0;
-    places.forEach((place, index) => {
+    places.forEach(([x, y], index) => {
       setTimeout(() => {
-        reverseDisc(place, this.discs, () => {
+        reverseDisc([x, y], this.discs, () => {
           animationEndCount += 1;
+          this.putStoneSounds[x][y].play();
           if (animationEndCount === places.length) {
             onEnd();
           }
@@ -49,8 +51,9 @@ export class AnimationController {
       disc.rotation.x += Math.PI;
     });
   };
-  public putDisc = (place: ReversiPosition, color: COLOR | null) => {
-    this.scene.add(createDisc(place, color ?? COLOR.BLACK, this.discs));
+  public putDisc = ([x, y]: ReversiPosition, color: COLOR | null) => {
+    this.scene.add(createDisc([x, y], color ?? COLOR.BLACK, this.discs));
+    this.putStoneSounds[x][y].play();
   };
   public deleteDisc = (place: ReversiPosition) => {
     deleteDisc(place, this.discs, this.scene);
@@ -68,9 +71,10 @@ export class AnimationController {
     /*
      * set up reversi UI
      */
-    const { scene, camera, tiles, discs } = setUpReversi();
+    const { scene, camera, tiles, discs, putStoneSounds } = setUpReversi();
     this.discs = discs;
     this.scene = scene;
+    this.putStoneSounds = putStoneSounds;
 
     /*
      * make tiles shine when hovered
