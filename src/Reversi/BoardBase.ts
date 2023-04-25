@@ -7,7 +7,7 @@ export const createBoardBase = () => {
     BOARD_BASE_SIZE,
     BOARD_BASE_HEIGHT
   );
-  const woodTexture = new THREE.TextureLoader().load("/textures/wood.jpg");
+  const woodTexture = new THREE.TextureLoader().load("textures/wood.jpg");
   const boardBaseMaterial = new THREE.MeshStandardMaterial({
     map: woodTexture,
   });
