@@ -45,6 +45,16 @@ function _assertClass(instance, klass) {
 }
 /**
 * @param {Board} board
+* @returns {boolean}
+*/
+export function has_game_ended(board) {
+    _assertClass(board, Board);
+    const ret = wasm.has_game_ended(board.ptr);
+    return ret !== 0;
+}
+
+/**
+* @param {Board} board
 * @param {bigint} place
 * @returns {PutResult}
 */
@@ -52,16 +62,6 @@ export function put(board, place) {
     _assertClass(board, Board);
     const ret = wasm.put(board.ptr, place);
     return PutResult.__wrap(ret);
-}
-
-/**
-* @param {Board} board
-* @returns {boolean}
-*/
-export function has_game_ended(board) {
-    _assertClass(board, Board);
-    const ret = wasm.has_game_ended(board.ptr);
-    return ret !== 0;
 }
 
 /**
@@ -282,6 +282,12 @@ function getImports() {
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
         takeObject(arg0);
     };
+    imports.wbg.__wbg_getRandomValues_02639197c8166a96 = function(arg0, arg1, arg2) {
+        getObject(arg0).getRandomValues(getArrayU8FromWasm0(arg1, arg2));
+    };
+    imports.wbg.__wbg_randomFillSync_dd2297de5917c74e = function(arg0, arg1, arg2) {
+        getObject(arg0).randomFillSync(getArrayU8FromWasm0(arg1, arg2));
+    };
     imports.wbg.__wbg_new_d87f272aec784ec0 = function(arg0, arg1) {
         const ret = new Function(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
@@ -313,12 +319,6 @@ function getImports() {
     imports.wbg.__wbg_require_0993fe224bf8e202 = function(arg0, arg1) {
         const ret = require(getStringFromWasm0(arg0, arg1));
         return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_randomFillSync_dd2297de5917c74e = function(arg0, arg1, arg2) {
-        getObject(arg0).randomFillSync(getArrayU8FromWasm0(arg1, arg2));
-    };
-    imports.wbg.__wbg_getRandomValues_02639197c8166a96 = function(arg0, arg1, arg2) {
-        getObject(arg0).getRandomValues(getArrayU8FromWasm0(arg1, arg2));
     };
     imports.wbg.__wbindgen_throw = function(arg0, arg1) {
         throw new Error(getStringFromWasm0(arg0, arg1));
