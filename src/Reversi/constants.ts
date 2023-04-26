@@ -43,7 +43,7 @@ export const BOARD_BASE_Z = -0.65;
 export const CAMERA_FOV = 80;
 export const CAMERA_POSITION = {
   x: 0,
-  y: -6,
+  y: -4,
   z: 8,
 };
 export const CAMERA_LOOK_AT = {
