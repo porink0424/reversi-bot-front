@@ -55,19 +55,12 @@ export function put(board, place) {
 }
 
 /**
-*/
-export function greet() {
-    wasm.greet();
-}
-
-/**
 * @param {Board} board
-* @param {bigint} place
 * @returns {boolean}
 */
-export function can_put(board, place) {
+export function has_game_ended(board) {
     _assertClass(board, Board);
-    const ret = wasm.can_put(board.ptr, place);
+    const ret = wasm.has_game_ended(board.ptr);
     return ret !== 0;
 }
 
@@ -83,22 +76,13 @@ export function calc_legal_places(board) {
 
 /**
 * @param {Board} board
+* @param {number} method
 * @returns {bigint}
 */
-export function decide_place(board) {
+export function decide_place(board, method) {
     _assertClass(board, Board);
-    const ret = wasm.decide_place(board.ptr);
+    const ret = wasm.decide_place(board.ptr, method);
     return BigInt.asUintN(64, ret);
-}
-
-/**
-* @param {Board} board
-* @returns {boolean}
-*/
-export function has_game_ended(board) {
-    _assertClass(board, Board);
-    const ret = wasm.has_game_ended(board.ptr);
-    return ret !== 0;
 }
 
 function addHeapObject(obj) {
@@ -116,6 +100,9 @@ function getArrayU8FromWasm0(ptr, len) {
 /**
 */
 export const COLOR = Object.freeze({ BLACK:0,"0":"BLACK",WHITE:1,"1":"WHITE", });
+/**
+*/
+export const EvalMethod = Object.freeze({ Random:0,"0":"Random",PointTable:1,"1":"PointTable",Normal:2,"2":"Normal",WinOrLose:3,"3":"WinOrLose",Perfect:4,"4":"Perfect", });
 /**
 */
 export class Board {
@@ -292,9 +279,6 @@ async function load(module, imports) {
 function getImports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbg_alert_17ea0c947221fac4 = function(arg0, arg1) {
-        alert(getStringFromWasm0(arg0, arg1));
-    };
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
         takeObject(arg0);
     };

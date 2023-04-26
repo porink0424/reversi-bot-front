@@ -14,6 +14,7 @@ import { COLOR } from "../pkg/reversi_bot";
 import HeadMessageBox from "./UI/HeadMessageBox";
 import { bigIntToPlaces, countOnesInBigInt, placeToBigInt } from "./utils";
 import UndoButton from "./UI/UndoButton";
+import { EvalMethod } from "../pkg/reversi_bot";
 
 function GameManager({
   animationController,
@@ -97,10 +98,11 @@ function GameManager({
             throw new Error("board is not initialized");
           }
 
-          // // for debug, decide the first legal place automatically
+          // // for debug, decide by random
           // if (process.env.REACT_APP_ENVIRONMENT === "dev") {
-          //   const legal_places = calc_legal_places(board.current);
-          //   decidedPlace.current = bigIntToPlaces(legal_places)[0];
+          //   decidedPlace.current = bigIntToPlaces(
+          //     decide_place(board.current, EvalMethod.Random)
+          //   )[0];
           //   setGameState(GAME_STATE.REVERSE_ANIMATION);
           //   return;
           // }
@@ -137,13 +139,19 @@ function GameManager({
           break;
         }
         case GAME_STATE.THINK: {
-          if (!board.current) {
-            throw new Error("board is not initialized");
-          }
-          decidedPlace.current = bigIntToPlaces(decide_place(board.current))[0];
           setTimeout(() => {
-            setGameState(GAME_STATE.REVERSE_ANIMATION);
-          }, BOT_THINKING_DELAY_MS);
+            if (!board.current) {
+              throw new Error("board is not initialized");
+            }
+
+            decidedPlace.current = bigIntToPlaces(
+              decide_place(board.current, EvalMethod.PointTable)
+            )[0];
+            setTimeout(() => {
+              setGameState(GAME_STATE.REVERSE_ANIMATION);
+            }, BOT_THINKING_DELAY_MS);
+            return;
+          }, 100); // wait for showing the head message
           break;
         }
         case GAME_STATE.REVERSE_ANIMATION: {

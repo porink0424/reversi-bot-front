@@ -7,14 +7,10 @@
 */
 export function put(board: Board, place: bigint): PutResult;
 /**
-*/
-export function greet(): void;
-/**
 * @param {Board} board
-* @param {bigint} place
 * @returns {boolean}
 */
-export function can_put(board: Board, place: bigint): boolean;
+export function has_game_ended(board: Board): boolean;
 /**
 * @param {Board} board
 * @returns {bigint}
@@ -22,19 +18,24 @@ export function can_put(board: Board, place: bigint): boolean;
 export function calc_legal_places(board: Board): bigint;
 /**
 * @param {Board} board
+* @param {number} method
 * @returns {bigint}
 */
-export function decide_place(board: Board): bigint;
-/**
-* @param {Board} board
-* @returns {boolean}
-*/
-export function has_game_ended(board: Board): boolean;
+export function decide_place(board: Board, method: number): bigint;
 /**
 */
 export enum COLOR {
   BLACK = 0,
   WHITE = 1,
+}
+/**
+*/
+export enum EvalMethod {
+  Random = 0,
+  PointTable = 1,
+  Normal = 2,
+  WinOrLose = 3,
+  Perfect = 4,
 }
 /**
 */
@@ -96,11 +97,9 @@ export interface InitOutput {
   readonly __wbg_set_board_current_color: (a: number, b: number) => void;
   readonly board_new: () => number;
   readonly board_set: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly greet: () => void;
-  readonly can_put: (a: number, b: number) => number;
-  readonly calc_legal_places: (a: number) => number;
-  readonly decide_place: (a: number) => number;
   readonly has_game_ended: (a: number) => number;
+  readonly calc_legal_places: (a: number) => number;
+  readonly decide_place: (a: number, b: number) => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
