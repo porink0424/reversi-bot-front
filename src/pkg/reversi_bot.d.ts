@@ -18,10 +18,10 @@ export function has_game_ended(board: Board): boolean;
 export function calc_legal_places(board: Board): bigint;
 /**
 * @param {Board} board
-* @param {number} method
+* @param {number} prop_method
 * @returns {bigint}
 */
-export function decide_place(board: Board, method: number): bigint;
+export function decide_place(board: Board, prop_method: number): bigint;
 /**
 */
 export enum COLOR {
@@ -34,7 +34,7 @@ export enum EvalMethod {
   Random = 0,
   PointTable = 1,
   Normal = 2,
-  WinOrLose = 3,
+  Win = 3,
   Perfect = 4,
 }
 /**
@@ -86,6 +86,7 @@ export interface InitOutput {
   readonly __wbg_get_putresult_reversed_places: (a: number) => number;
   readonly __wbg_set_putresult_reversed_places: (a: number, b: number) => void;
   readonly put: (a: number, b: number) => number;
+  readonly has_game_ended: (a: number) => number;
   readonly __wbg_board_free: (a: number) => void;
   readonly __wbg_get_board_black_stones: (a: number) => number;
   readonly __wbg_set_board_black_stones: (a: number, b: number) => void;
@@ -97,7 +98,6 @@ export interface InitOutput {
   readonly __wbg_set_board_current_color: (a: number, b: number) => void;
   readonly board_new: () => number;
   readonly board_set: (a: number, b: number, c: number, d: number, e: number) => void;
-  readonly has_game_ended: (a: number) => number;
   readonly calc_legal_places: (a: number) => number;
   readonly decide_place: (a: number, b: number) => number;
 }

@@ -98,14 +98,14 @@ function GameManager({
             throw new Error("board is not initialized");
           }
 
-          // // for debug, decide by random
-          // if (process.env.REACT_APP_ENVIRONMENT === "dev") {
-          //   decidedPlace.current = bigIntToPlaces(
-          //     decide_place(board.current, EvalMethod.Random)
-          //   )[0];
-          //   setGameState(GAME_STATE.REVERSE_ANIMATION);
-          //   return;
-          // }
+          // for debug, decide by random
+          if (process.env.REACT_APP_ENVIRONMENT === "dev") {
+            decidedPlace.current = bigIntToPlaces(
+              decide_place(board.current, EvalMethod.PointTable)
+            )[0];
+            setGameState(GAME_STATE.REVERSE_ANIMATION);
+            return;
+          }
 
           animationController.current?.setLegalPlaces(
             bigIntToPlaces(calc_legal_places(board.current))
@@ -145,7 +145,7 @@ function GameManager({
             }
 
             decidedPlace.current = bigIntToPlaces(
-              decide_place(board.current, EvalMethod.PointTable)
+              decide_place(board.current, EvalMethod.Normal)
             )[0];
             setTimeout(() => {
               setGameState(GAME_STATE.REVERSE_ANIMATION);

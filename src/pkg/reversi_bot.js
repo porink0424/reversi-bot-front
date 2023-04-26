@@ -76,12 +76,12 @@ export function calc_legal_places(board) {
 
 /**
 * @param {Board} board
-* @param {number} method
+* @param {number} prop_method
 * @returns {bigint}
 */
-export function decide_place(board, method) {
+export function decide_place(board, prop_method) {
     _assertClass(board, Board);
-    const ret = wasm.decide_place(board.ptr, method);
+    const ret = wasm.decide_place(board.ptr, prop_method);
     return BigInt.asUintN(64, ret);
 }
 
@@ -102,7 +102,7 @@ function getArrayU8FromWasm0(ptr, len) {
 export const COLOR = Object.freeze({ BLACK:0,"0":"BLACK",WHITE:1,"1":"WHITE", });
 /**
 */
-export const EvalMethod = Object.freeze({ Random:0,"0":"Random",PointTable:1,"1":"PointTable",Normal:2,"2":"Normal",WinOrLose:3,"3":"WinOrLose",Perfect:4,"4":"Perfect", });
+export const EvalMethod = Object.freeze({ Random:0,"0":"Random",PointTable:1,"1":"PointTable",Normal:2,"2":"Normal",Win:3,"3":"Win",Perfect:4,"4":"Perfect", });
 /**
 */
 export class Board {
