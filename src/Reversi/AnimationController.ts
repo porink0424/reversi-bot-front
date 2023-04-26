@@ -15,12 +15,23 @@ export class AnimationController {
    */
   private shineHoveredTile: boolean = false;
   private legalPlaces: ReversiPosition[] = [];
+  private hoveredTile: THREE.Mesh<
+    THREE.BoxGeometry,
+    THREE.MeshPhongMaterial
+  > | null = null;
   private onLegalPlaceClicked: ((x: number, y: number) => void) | null = null;
   private scene!: THREE.Scene;
   private putStoneSounds!: THREE.Audio<GainNode>[][];
   private discs: (THREE.Object3D<THREE.Event> | null)[][] = [];
+  private resetTileColor = () => {
+    if (this.hoveredTile) {
+      this.hoveredTile.material.color = new THREE.Color(TILE_COLOR);
+    }
+  };
   public setShineHoveredTile = (shineHoveredTile: boolean) => {
     this.shineHoveredTile = shineHoveredTile;
+    this.resetTileColor();
+    this.hoveredTile = null;
   };
   public setLegalPlaces = (legalPlaces: ReversiPosition[]) => {
     this.legalPlaces = legalPlaces;
@@ -80,16 +91,7 @@ export class AnimationController {
      * make tiles shine when hovered
      */
     const body = document.getElementsByTagName("body")[0];
-    let hoveredTile: THREE.Mesh<
-      THREE.BoxGeometry,
-      THREE.MeshPhongMaterial
-    > | null = null;
     document.addEventListener("mousemove", (event: MouseEvent) => {
-      const resetTileColor = () => {
-        if (hoveredTile) {
-          hoveredTile.material.color = new THREE.Color(TILE_COLOR);
-        }
-      };
       if (this.shineHoveredTile) {
         // get mouse position
         const mouse = new THREE.Vector2(
@@ -112,27 +114,27 @@ export class AnimationController {
               (place) => place[0] === tileX && place[1] === tileY
             )
           ) {
-            resetTileColor();
-            hoveredTile = tiles[tileX][tileY];
-            hoveredTile.material.color = new THREE.Color(TILE_SHINE_COLOR);
+            this.resetTileColor();
+            this.hoveredTile = tiles[tileX][tileY];
+            this.hoveredTile.material.color = new THREE.Color(TILE_SHINE_COLOR);
             body.style.cursor = "pointer";
           }
         } else {
-          resetTileColor();
-          hoveredTile = null;
+          this.resetTileColor();
+          this.hoveredTile = null;
           body.style.cursor = "default";
         }
-      } else if (hoveredTile) {
+      } else if (this.hoveredTile) {
         // if shineHoveredTile is false although hoveredTile exists, reset hoveredTile
-        resetTileColor();
-        hoveredTile = null;
+        this.resetTileColor();
+        this.hoveredTile = null;
         body.style.cursor = "default";
       }
     });
     document.addEventListener("click", () => {
-      if (hoveredTile) {
-        const tileX = parseInt(hoveredTile.name[5]);
-        const tileY = parseInt(hoveredTile.name[7]);
+      if (this.shineHoveredTile && this.hoveredTile) {
+        const tileX = parseInt(this.hoveredTile.name[5]);
+        const tileY = parseInt(this.hoveredTile.name[7]);
         this.onLegalPlaceClicked?.(tileX, tileY);
       }
     });
