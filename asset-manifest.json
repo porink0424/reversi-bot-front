@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/reversi-bot-front/static/js/main.6d94ae2d.js",
-    "static/media/reversi_bot_bg.wasm": "/reversi-bot-front/static/media/reversi_bot_bg.8444319b83c81f17d59a.wasm",
+    "main.js": "/reversi-bot-front/static/js/main.4dc59f0d.js",
+    "static/media/reversi_bot_bg.wasm": "/reversi-bot-front/static/media/reversi_bot_bg.d54e1be4ce8a16126c51.wasm",
     "index.html": "/reversi-bot-front/index.html",
-    "main.6d94ae2d.js.map": "/reversi-bot-front/static/js/main.6d94ae2d.js.map"
+    "main.4dc59f0d.js.map": "/reversi-bot-front/static/js/main.4dc59f0d.js.map"
   },
   "entrypoints": [
-    "static/js/main.6d94ae2d.js"
+    "static/js/main.4dc59f0d.js"
   ]
 }
