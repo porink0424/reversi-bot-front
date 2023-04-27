@@ -28,7 +28,7 @@ function GameManager({
   const boardHistory = useRef<
     {
       board: Board;
-      place: ReversiPosition;
+      place: ReversiPosition | null;
       reversedPlaces: ReversiPosition[];
     }[]
   >([]);
@@ -82,6 +82,11 @@ function GameManager({
               board.current.current_color === COLOR.BLACK
                 ? COLOR.WHITE
                 : COLOR.BLACK;
+            boardHistory.current.push({
+              board: board.current,
+              place: null,
+              reversedPlaces: [],
+            });
             setGameState(GAME_STATE.PASS);
             return;
           }
@@ -125,13 +130,15 @@ function GameManager({
             animationController.current?.reverseDiscsWithoutAnimation(
               prevBoard.reversedPlaces
             );
-            animationController.current?.deleteDisc(prevBoard.place);
+            if (prevBoard.place)
+              animationController.current?.deleteDisc(prevBoard.place);
             // 2nd
             prevBoard = boardHistory.current.pop()!;
             animationController.current?.reverseDiscsWithoutAnimation(
               prevBoard.reversedPlaces
             );
-            animationController.current?.deleteDisc(prevBoard.place);
+            if (prevBoard.place)
+              animationController.current?.deleteDisc(prevBoard.place);
             board.current = prevBoard.board;
           }
 
