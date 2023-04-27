@@ -2,9 +2,10 @@
 /* eslint-disable */
 /**
 * @param {Board} board
-* @returns {boolean}
+* @param {number} prop_method
+* @returns {DecidePlaceResult}
 */
-export function has_game_ended(board: Board): boolean;
+export function decide_place(board: Board, prop_method: number): DecidePlaceResult;
 /**
 * @param {Board} board
 * @param {bigint} place
@@ -18,10 +19,9 @@ export function put(board: Board, place: bigint): PutResult;
 export function calc_legal_places(board: Board): bigint;
 /**
 * @param {Board} board
-* @param {number} prop_method
-* @returns {bigint}
+* @returns {boolean}
 */
-export function decide_place(board: Board, prop_method: number): bigint;
+export function has_game_ended(board: Board): boolean;
 /**
 */
 export enum COLOR {
@@ -36,6 +36,14 @@ export enum EvalMethod {
   Normal = 2,
   Win = 3,
   Perfect = 4,
+}
+/**
+*/
+export enum WinPrediction {
+  WIN = 0,
+  LOSE = 1,
+  DRAW = 2,
+  UNKNOWN = 3,
 }
 /**
 */
@@ -66,6 +74,17 @@ export class Board {
 }
 /**
 */
+export class DecidePlaceResult {
+  free(): void;
+/**
+*/
+  place: bigint;
+/**
+*/
+  win_prediction: number;
+}
+/**
+*/
 export class PutResult {
   free(): void;
 /**
@@ -80,7 +99,12 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly has_game_ended: (a: number) => number;
+  readonly __wbg_decideplaceresult_free: (a: number) => void;
+  readonly __wbg_get_decideplaceresult_place: (a: number) => number;
+  readonly __wbg_set_decideplaceresult_place: (a: number, b: number) => void;
+  readonly __wbg_get_decideplaceresult_win_prediction: (a: number) => number;
+  readonly __wbg_set_decideplaceresult_win_prediction: (a: number, b: number) => void;
+  readonly decide_place: (a: number, b: number) => number;
   readonly __wbg_board_free: (a: number) => void;
   readonly __wbg_get_board_black_stones: (a: number) => number;
   readonly __wbg_set_board_black_stones: (a: number, b: number) => void;
@@ -99,7 +123,7 @@ export interface InitOutput {
   readonly __wbg_set_putresult_reversed_places: (a: number, b: number) => void;
   readonly put: (a: number, b: number) => number;
   readonly calc_legal_places: (a: number) => number;
-  readonly decide_place: (a: number, b: number) => number;
+  readonly has_game_ended: (a: number) => number;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;

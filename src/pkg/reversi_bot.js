@@ -45,12 +45,13 @@ function _assertClass(instance, klass) {
 }
 /**
 * @param {Board} board
-* @returns {boolean}
+* @param {number} prop_method
+* @returns {DecidePlaceResult}
 */
-export function has_game_ended(board) {
+export function decide_place(board, prop_method) {
     _assertClass(board, Board);
-    const ret = wasm.has_game_ended(board.ptr);
-    return ret !== 0;
+    const ret = wasm.decide_place(board.ptr, prop_method);
+    return DecidePlaceResult.__wrap(ret);
 }
 
 /**
@@ -76,13 +77,12 @@ export function calc_legal_places(board) {
 
 /**
 * @param {Board} board
-* @param {number} prop_method
-* @returns {bigint}
+* @returns {boolean}
 */
-export function decide_place(board, prop_method) {
+export function has_game_ended(board) {
     _assertClass(board, Board);
-    const ret = wasm.decide_place(board.ptr, prop_method);
-    return BigInt.asUintN(64, ret);
+    const ret = wasm.has_game_ended(board.ptr);
+    return ret !== 0;
 }
 
 function addHeapObject(obj) {
@@ -103,6 +103,9 @@ export const COLOR = Object.freeze({ BLACK:0,"0":"BLACK",WHITE:1,"1":"WHITE", })
 /**
 */
 export const EvalMethod = Object.freeze({ Random:0,"0":"Random",PointTable:1,"1":"PointTable",Normal:2,"2":"Normal",Win:3,"3":"Win",Perfect:4,"4":"Perfect", });
+/**
+*/
+export const WinPrediction = Object.freeze({ WIN:0,"0":"WIN",LOSE:1,"1":"LOSE",DRAW:2,"2":"DRAW",UNKNOWN:3,"3":"UNKNOWN", });
 /**
 */
 export class Board {
@@ -191,6 +194,55 @@ export class Board {
     */
     set(black_stones, white_stones, put_stones_count, current_color) {
         wasm.board_set(this.ptr, black_stones, white_stones, put_stones_count, current_color);
+    }
+}
+/**
+*/
+export class DecidePlaceResult {
+
+    static __wrap(ptr) {
+        const obj = Object.create(DecidePlaceResult.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    __destroy_into_raw() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        return ptr;
+    }
+
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_decideplaceresult_free(ptr);
+    }
+    /**
+    * @returns {bigint}
+    */
+    get place() {
+        const ret = wasm.__wbg_get_decideplaceresult_place(this.ptr);
+        return BigInt.asUintN(64, ret);
+    }
+    /**
+    * @param {bigint} arg0
+    */
+    set place(arg0) {
+        wasm.__wbg_set_decideplaceresult_place(this.ptr, arg0);
+    }
+    /**
+    * @returns {number}
+    */
+    get win_prediction() {
+        const ret = wasm.__wbg_get_decideplaceresult_win_prediction(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set win_prediction(arg0) {
+        wasm.__wbg_set_decideplaceresult_win_prediction(this.ptr, arg0);
     }
 }
 /**

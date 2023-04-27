@@ -9,6 +9,7 @@ import init, {
   has_game_ended,
   put,
   decide_place,
+  WinPrediction,
 } from "../pkg/reversi_bot";
 import { COLOR } from "../pkg/reversi_bot";
 import HeadMessageBox from "./UI/HeadMessageBox";
@@ -24,6 +25,9 @@ function GameManager({
   const [gameState, setGameState] = useState<GameState>(GAME_STATE.START);
   const [result, setResult] = useState<Result | null>(null);
   const [playerColor, setPlayerColor] = useState<COLOR | null>(COLOR.BLACK);
+  const [winPrediction, setWinPrediction] = useState<WinPrediction>(
+    WinPrediction.UNKNOWN
+  );
 
   const boardHistory = useRef<
     {
@@ -125,21 +129,27 @@ function GameManager({
         case GAME_STATE.UNDO: {
           if (boardHistory.current.length >= 2) {
             // Get back 2 steps since have to be in the previous WAIT_FOR_PLAYER state
-            // 1st
-            let prevBoard = boardHistory.current.pop()!;
-            animationController.current?.reverseDiscsWithoutAnimation(
-              prevBoard.reversedPlaces
-            );
-            if (prevBoard.place)
-              animationController.current?.deleteDisc(prevBoard.place);
-            // 2nd
-            prevBoard = boardHistory.current.pop()!;
-            animationController.current?.reverseDiscsWithoutAnimation(
-              prevBoard.reversedPlaces
-            );
-            if (prevBoard.place)
-              animationController.current?.deleteDisc(prevBoard.place);
-            board.current = prevBoard.board;
+            // And if 2-previous WAIT_FOR_PLAYER state is PASS, get back 2 steps further
+            while (true) {
+              // 1st
+              let prevBoard = boardHistory.current.pop()!;
+              animationController.current?.reverseDiscsWithoutAnimation(
+                prevBoard.reversedPlaces
+              );
+              if (prevBoard.place)
+                animationController.current?.deleteDisc(prevBoard.place);
+              // 2nd
+              prevBoard = boardHistory.current.pop()!;
+              animationController.current?.reverseDiscsWithoutAnimation(
+                prevBoard.reversedPlaces
+              );
+
+              if (prevBoard.place) {
+                animationController.current?.deleteDisc(prevBoard.place);
+                board.current = prevBoard.board;
+                break;
+              }
+            }
           }
 
           setGameState(GAME_STATE.WAIT_FOR_PLAYER);
@@ -151,9 +161,12 @@ function GameManager({
               throw new Error("board is not initialized");
             }
 
-            decidedPlace.current = bigIntToPlaces(
-              decide_place(board.current, EvalMethod.Normal)
-            )[0];
+            const decidePlaceResult = decide_place(
+              board.current,
+              EvalMethod.Normal
+            );
+            setWinPrediction(decidePlaceResult.win_prediction);
+            decidedPlace.current = bigIntToPlaces(decidePlaceResult.place)[0];
             setTimeout(() => {
               setGameState(GAME_STATE.REVERSE_ANIMATION);
             }, BOT_THINKING_DELAY_MS);
@@ -206,6 +219,7 @@ function GameManager({
         setPlayerColor={setPlayerColor}
       />
       <HeadMessageBox
+        winPrediction={winPrediction}
         gameState={gameState}
         setGameState={setGameState}
         result={result}

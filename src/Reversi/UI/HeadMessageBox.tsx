@@ -4,14 +4,16 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import { Box, IconButton, Typography } from "@mui/material";
 import { GameState, Result } from "../types";
 import { GAME_STATE } from "../constants";
-import { COLOR } from "../../pkg/reversi_bot";
+import { COLOR, WinPrediction } from "../../pkg/reversi_bot";
 
 function HeadMessageBox({
+  winPrediction,
   gameState,
   setGameState,
   result,
   playerColor,
 }: {
+  winPrediction: WinPrediction;
   gameState: GameState;
   setGameState: (gameState: GameState) => void;
   result: Result | null;
@@ -83,7 +85,14 @@ function HeadMessageBox({
               marginLeft: "2rem",
             }}
           >
-            YOUR TURN!
+            YOUR TURN!{" "}
+            {winPrediction === WinPrediction.LOSE
+              ? "YOU WILL WIN!"
+              : winPrediction === WinPrediction.WIN
+              ? "YOU WILL LOSE..."
+              : winPrediction === WinPrediction.DRAW
+              ? "WILL BE DRAW."
+              : ""}
           </Typography>
         )}
         {gameState === GAME_STATE.THINK && (

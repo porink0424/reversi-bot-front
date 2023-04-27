@@ -1,7 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export function has_game_ended(a: number): number;
+export function __wbg_decideplaceresult_free(a: number): void;
+export function __wbg_get_decideplaceresult_place(a: number): number;
+export function __wbg_set_decideplaceresult_place(a: number, b: number): void;
+export function __wbg_get_decideplaceresult_win_prediction(a: number): number;
+export function __wbg_set_decideplaceresult_win_prediction(a: number, b: number): void;
+export function decide_place(a: number, b: number): number;
 export function __wbg_board_free(a: number): void;
 export function __wbg_get_board_black_stones(a: number): number;
 export function __wbg_set_board_black_stones(a: number, b: number): void;
@@ -20,4 +25,4 @@ export function __wbg_get_putresult_reversed_places(a: number): number;
 export function __wbg_set_putresult_reversed_places(a: number, b: number): void;
 export function put(a: number, b: number): number;
 export function calc_legal_places(a: number): number;
-export function decide_place(a: number, b: number): number;
+export function has_game_ended(a: number): number;
