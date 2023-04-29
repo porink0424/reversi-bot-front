@@ -44,6 +44,7 @@ function GameManager({
       switch (gameState) {
         case GAME_STATE.INITIALIZE_BOARD: {
           animationController.current?.reset();
+          setWinPrediction(WinPrediction.UNKNOWN);
           init().then(() => {
             // initialize board
             board.current = new Board();
