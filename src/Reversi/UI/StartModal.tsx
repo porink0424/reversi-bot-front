@@ -28,6 +28,7 @@ function StartModal({
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: "40%",
+            minWidth: "250px",
             height: "200px",
             backgroundColor: "#fff",
             border: "2px solid #000",
@@ -44,6 +45,9 @@ function StartModal({
                 variant="h1"
                 sx={{
                   fontSize: "3rem",
+                  "@media screen and (max-width: 600px)": {
+                    fontSize: "1.5rem",
+                  },
                   marginBottom: "2rem",
                   fontWeight: "600",
                 }}
@@ -56,6 +60,9 @@ function StartModal({
                 sx={{
                   width: "60%",
                   fontSize: "1rem",
+                  "@media screen and (max-width: 600px)": {
+                    fontSize: ".8rem",
+                  },
                   display: "block",
                 }}
               >
@@ -68,13 +75,16 @@ function StartModal({
                 variant="h1"
                 sx={{
                   fontSize: "2rem",
+                  "@media screen and (max-width: 600px)": {
+                    fontSize: "1.5rem",
+                  },
                   marginBottom: "2rem",
                   fontWeight: "600",
                 }}
               >
                 YOUR COLOR?
               </Typography>
-              <Stack direction="row" spacing={4}>
+              <Stack direction="row" spacing={2}>
                 <Button
                   variant="contained"
                   color="black"
@@ -83,8 +93,11 @@ function StartModal({
                     setGameState(GAME_STATE.INITIALIZE_BOARD);
                   }}
                   sx={{
-                    width: "8rem",
+                    width: "6rem",
                     fontSize: "1rem",
+                    "@media screen and (max-width: 600px)": {
+                      fontSize: ".8rem",
+                    },
                     display: "block",
                     color: "#fff",
                   }}
@@ -99,8 +112,11 @@ function StartModal({
                     setGameState(GAME_STATE.INITIALIZE_BOARD);
                   }}
                   sx={{
-                    width: "8rem",
+                    width: "6rem",
                     fontSize: "1rem",
+                    "@media screen and (max-width: 600px)": {
+                      fontSize: ".8rem",
+                    },
                     display: "block",
                     color: "#000",
                   }}

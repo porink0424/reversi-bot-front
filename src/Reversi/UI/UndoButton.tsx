@@ -27,7 +27,12 @@ function UndoButton({
       >
         <Button
           onClick={() => setGameState(GAME_STATE.UNDO)}
-          sx={{ display: "flex", alignItems: "center" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "60px",
+          }}
           color="black"
         >
           <Stack direction="column" justifyContent="center">

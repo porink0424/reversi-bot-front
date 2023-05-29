@@ -62,6 +62,10 @@ function HeadMessageBox({
                 fontSize: "2rem",
                 fontWeight: "600",
                 marginLeft: "2rem",
+                "@media screen and (max-width: 600px)": {
+                  fontSize: "1.5rem",
+                  marginLeft: "1rem",
+                },
               }}
             >
               PASS!
@@ -83,6 +87,10 @@ function HeadMessageBox({
               fontSize: "2rem",
               fontWeight: "600",
               marginLeft: "2rem",
+              "@media screen and (max-width: 600px)": {
+                fontSize: "1.5rem",
+                marginLeft: "1rem",
+              },
             }}
           >
             YOUR TURN!{" "}
@@ -102,6 +110,10 @@ function HeadMessageBox({
               fontSize: "2rem",
               fontWeight: "600",
               marginLeft: "2rem",
+              "@media screen and (max-width: 600px)": {
+                fontSize: "1.5rem",
+                marginLeft: "1rem",
+              },
             }}
           >
             NOW THINKING...
@@ -115,6 +127,10 @@ function HeadMessageBox({
                 fontSize: "2rem",
                 fontWeight: "600",
                 marginLeft: "2rem",
+                "@media screen and (max-width: 600px)": {
+                  fontSize: "1.5rem",
+                  marginLeft: "1rem",
+                },
               }}
             >
               GAME SET!{" "}
