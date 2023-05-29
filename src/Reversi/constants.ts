@@ -43,16 +43,15 @@ export const BOARD_BASE_Z = -0.65;
 export const CAMERA_FOV = 80;
 export const CAMERA_POSITION = {
   x: 0,
-  y: -4,
-  z: 8,
+  y: -3.5,
+  z: 6.5,
 };
 export const CAMERA_LOOK_AT = {
   // decide so that the board is in the center of the screen
   x: 0,
-  y: -1,
+  y: -0.5,
   z: 0,
 };
-export const CAMERA_ZOOM_FACTOR = 1200; // change when we want to change the size of the board
 
 // light in three.js
 export const LIGHT_COLOR = 0xffffff;

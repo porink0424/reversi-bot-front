@@ -6,7 +6,6 @@ import {
   CAMERA_FOV,
   CAMERA_LOOK_AT,
   CAMERA_POSITION,
-  CAMERA_ZOOM_FACTOR,
   LIGHT_COLOR,
   LINE_COUNT,
   POINT_LIGHT_DISTANCE,
@@ -29,12 +28,7 @@ export const setUpDiscs = (scene: THREE.Scene) => {
 
 export const setUpReversi = () => {
   const scene = new THREE.Scene();
-  const aspectRatio = window.innerWidth / window.innerHeight;
-  const camera = new THREE.PerspectiveCamera(CAMERA_FOV, aspectRatio, 0.1, 100);
-  camera.zoom = window.innerWidth / CAMERA_ZOOM_FACTOR;
-  camera.updateProjectionMatrix();
   const listener = new THREE.AudioListener();
-  camera.add(listener);
   const audioLoaders = Array(LINE_COUNT)
     .fill(null)
     .map(() =>
@@ -59,8 +53,10 @@ export const setUpReversi = () => {
     });
   });
   const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  const size = Math.min(window.innerWidth, window.innerHeight);
+  renderer.setSize(size, size);
+  document.getElementById("App")!.appendChild(renderer.domElement);
 
   // board
   const { tiles, board } = createBoard();
@@ -74,8 +70,11 @@ export const setUpReversi = () => {
   scene.add(boardBase);
 
   // setup camera and lights
+  const camera = new THREE.PerspectiveCamera(CAMERA_FOV, 1, 0.1, 100);
   camera.position.set(CAMERA_POSITION.x, CAMERA_POSITION.y, CAMERA_POSITION.z);
   camera.lookAt(CAMERA_LOOK_AT.x, CAMERA_LOOK_AT.y, CAMERA_LOOK_AT.z);
+  camera.updateProjectionMatrix();
+  camera.add(listener);
   const pointLight = new THREE.PointLight(
     LIGHT_COLOR,
     POINT_LIGHT_INTENSITY,

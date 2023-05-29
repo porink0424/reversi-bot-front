@@ -1,6 +1,7 @@
 import React from "react";
 import Reversi from "./Reversi/Reversi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
 
 const theme = createTheme({
   palette: {
@@ -15,11 +16,21 @@ const theme = createTheme({
 
 function App() {
   return (
-    <div className="App">
+    <Box
+      id="App"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        width: "100%",
+        bgcolor: "black",
+      }}
+    >
       <ThemeProvider theme={theme}>
         <Reversi />
       </ThemeProvider>
-    </div>
+    </Box>
   );
 }
 

@@ -82,7 +82,8 @@ export class AnimationController {
     /*
      * set up reversi UI
      */
-    const { scene, camera, tiles, discs, putStoneSounds } = setUpReversi();
+    const { scene, camera, tiles, discs, putStoneSounds, renderer } =
+      setUpReversi();
     this.discs = discs;
     this.scene = scene;
     this.putStoneSounds = putStoneSounds;
@@ -94,9 +95,10 @@ export class AnimationController {
     document.addEventListener("mousemove", (event: MouseEvent) => {
       if (this.shineHoveredTile) {
         // get mouse position
+        const clientRect = renderer.domElement.getBoundingClientRect();
         const mouse = new THREE.Vector2(
-          (event.clientX / window.innerWidth) * 2 - 1,
-          -(event.clientY / window.innerHeight) * 2 + 1
+          (event.offsetX / clientRect.width) * 2 - 1,
+          -(event.offsetY / clientRect.height) * 2 + 1
         );
 
         // make raycaster
