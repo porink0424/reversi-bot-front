@@ -26,7 +26,7 @@ export const SEPARATOR_LENGTH = BOARD_SIZE + 0.05;
 export const DISC_RADIUS = 0.4;
 export const DISC_THICKNESS = 0.1;
 export const BOARD_BASE_SIZE = BOARD_SIZE + 1;
-export const BOARD_BASE_HEIGHT = 1;
+export const BOARD_BASE_HEIGHT = 2;
 
 // color in three.js
 export const TILE_COLOR = 0x228b22;
@@ -37,14 +37,14 @@ export const DISC_BLACK_COLOR = 0x000000;
 
 // z position in three.js
 export const TILE_Z = -0.1;
-export const BOARD_BASE_Z = -0.65;
+export const BOARD_BASE_Z = -1.15;
 
 // camera in three.js
 export const CAMERA_FOV = 80;
 export const CAMERA_POSITION = {
   x: 0,
-  y: -3.5,
-  z: 6.5,
+  y: -5,
+  z: 6.2,
 };
 export const CAMERA_LOOK_AT = {
   // decide so that the board is in the center of the screen
@@ -58,11 +58,11 @@ export const LIGHT_COLOR = 0xffffff;
 export const POINT_LIGHT_POSITION = {
   x: 0,
   y: 0,
-  z: 7,
+  z: 5,
 };
 export const POINT_LIGHT_INTENSITY = 1;
 export const POINT_LIGHT_DISTANCE = 100;
-export const AMBIENT_LIGHT_INTENSITY = 0.4;
+export const AMBIENT_LIGHT_INTENSITY = 0.5;
 
 // animation
 export const REVERSE_DISC_MAX_FRAME_COUNT = 11;
