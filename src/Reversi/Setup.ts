@@ -45,11 +45,14 @@ export const setUpReversi = () => {
     );
   audioLoaders.forEach((row, rowIndex) => {
     row.forEach((audioLoader, columnIndex) => {
-      audioLoader.load("sounds/put_stone.mp3", (buffer) => {
-        putStoneSounds[rowIndex][columnIndex].setBuffer(buffer);
-        putStoneSounds[rowIndex][columnIndex].setLoop(false);
-        putStoneSounds[rowIndex][columnIndex].setVolume(1);
-      });
+      audioLoader.load(
+        `${process.env.PUBLIC_URL}/sounds/put_stone.mp3`,
+        (buffer) => {
+          putStoneSounds[rowIndex][columnIndex].setBuffer(buffer);
+          putStoneSounds[rowIndex][columnIndex].setLoop(false);
+          putStoneSounds[rowIndex][columnIndex].setVolume(1);
+        }
+      );
     });
   });
   const renderer = new THREE.WebGLRenderer();
